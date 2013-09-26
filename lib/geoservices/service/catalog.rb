@@ -1,25 +1,24 @@
-module Geoservice
+module Geoservices
   class Catalog
-    include Geoservice::Base
-    attr_reader :metadata, :services, :version
-  
-    def initialize(options={})
+    include Geoservices::Base
+
+    attr_reader :services, :version
+
+    def initialize(options = {})
       @host = options[:host]
-      @metadata = get(@host)
-      @services = @metadata['services']
-      @version  = @metadata['currentVersion']
+      self.metadata = get(@host)
+      @services = self.metadata['services']
+      @version  = self.metadata['currentVersion']
     end
-    
+
     def [](service_name)
-      if service_name.kind_of?(Integer)
-        return self.services[service_name]
-      else
-        for i in 0..self.services.length
-          return services[i] if service_name == services[i]["name"]
-        end
+      case service_name
+      when Integer
+        self.services[service_name]
+      when String
+        self.services.each {|s| return s if service_name == s['name']}
       end
-      return nil    
     end
-        
+
   end
 end

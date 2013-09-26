@@ -23,7 +23,6 @@ module Geoservices
       s.gsub! /%username%/, username
     end
 
-
     [:get, :post].each do |method|
       define_method(method) do |url, params = {}|
         usernameify url if url

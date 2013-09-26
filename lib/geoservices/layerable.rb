@@ -3,21 +3,18 @@ module Geoservices
 
     def layers(layer_name = nil)
       @full_layers ||= get(@url + '/layers')["layers"]
-
       return @full_layers if layer_name.nil?
-
-      for i in 0...@full_layers.length
-        return @full_layers[i] if layer_name == @full_layers[i]["name"]
-      end
+      @full_layers.each {|fl| return fl if fl['name'] == layer_name}
     end
 
     def [](layer_name)
-      if layer_name.kind_of?(Integer)
+      case layer_name
+      when Integer
         return self.metadata.layers[layer_name]
       else
         return self.layers(layer_name)
       end
-      return nil
+      nil
     end
 
     def legend

@@ -16,7 +16,7 @@ module Geoservices
       when Integer
         self.services[service_name]
       when String
-        self.services.each {|s| return s if service_name == s['name']}
+        self.services.detect {|s| service_name == s['name']}
       end
     end
 

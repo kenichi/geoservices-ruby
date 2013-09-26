@@ -4,7 +4,7 @@ module Geoservices
     def layers(layer_name = nil)
       @full_layers ||= get(@url + '/layers')["layers"]
       return @full_layers if layer_name.nil?
-      @full_layers.each {|fl| return fl if fl['name'] == layer_name}
+      @full_layers.detect {|fl| fl['name'] == layer_name}
     end
 
     def [](layer_name)
